@@ -14,7 +14,7 @@ Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
     return root;
 }
 
-//нумерация узлов дерева
+//нумерация узлов дерева (нумеруем узел, потом правого потомка, потом левого)
 void BinaryTree::_SetNumbers(Node* p, int &i)
 {
     if (!p)
@@ -27,7 +27,8 @@ void BinaryTree::_SetNumbers(Node* p, int &i)
         _SetNumbers(p->left, i);
 }
 
-//вывод дерева в TreeView
+/* дерева в TreeView (нумеруем узлы дерева, т.к тут по-другому никак), потом начинаем выводить
+узел->правый потомок->левый потомок*/
 void BinaryTree::_Show(Node* p, TTreeView *TreeView)
 {
     if(!p)
@@ -46,7 +47,7 @@ void BinaryTree::_Show(Node* p, TTreeView *TreeView)
     }
 }
 
-//прямой обход
+//прямой обход узел->левый потомок->правый потомок
 void BinaryTree::_Path1(Node *root, TMemo *Memo)
 {
     if(root) {
@@ -62,7 +63,7 @@ void BinaryTree::_Path1(Node *root, TMemo *Memo)
         _Path1(root->right, Memo);
 }
 
-//обратный обход
+//обратный обход левый потомок->правый потомок->узел
 void BinaryTree::_Path2(Node *root, TMemo *Memo)
 {
     if(root->left)
@@ -78,7 +79,7 @@ void BinaryTree::_Path2(Node *root, TMemo *Memo)
     }
 }
 
-//обход в порядке возрастания ключа
+//обход в порядке возрастания ключа левый потомок->узел->правый потомок
 void BinaryTree::_Path3(Node *root, TMemo *Memo)
 {
     if(root->left)
@@ -127,7 +128,8 @@ Node* BinaryTree::RemoveMin(Node* root)
     return root;
 }
 
-//удаление узла дерева
+/*удаление узла дерева (если нашли узел с ключом k, то находим у него минимального потомка, меняем их 
+местами и удаляем узел с ключом k)*/
 Node* BinaryTree::_Remove(Node* root, int k)
 {
     if (!root)
@@ -192,7 +194,7 @@ void BinaryTree::TreeToArr(Node *root, int *a, int &i, UnicodeString* s)
         TreeToArr(root->right, a, i, s);
 }
 
-//балансировка дерева
+//балансировка дерева (выгружаем в массив, а потом чем-то вроде бинпоика строим дерево) 
 void BinaryTree::_Balance(Node *&root, int *a, int l, int r, UnicodeString* s)
 {
     if (l == r) {
