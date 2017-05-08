@@ -1,0 +1,229 @@
+#include "AVL.h"
+
+class SearchTree {
+private:
+    Node* root;
+    Node* _Insert(Node* root, int k, UnicodeString s) {
+        if (root == NULL) {
+            return new Node(k, s);
+        }
+        if (k > root->key) {
+            root->right = _Insert(root->right, k, s);
+        }
+        else {
+            root->left = _Insert(root->left, k, s);
+        }
+        return root;
+    }
+    void _SetNumbers(Node* p, int &i) {
+         if (!p) return;
+         p->number = i;
+         i++;
+         if (p->right) {
+             _SetNumbers(p->right, i);
+         }
+         if (p->left) {
+             _SetNumbers(p->left, i);
+         }
+    }
+    void _Show(Node* p, TTreeView *TreeView) {
+         if(!p) return;
+         if (!p->number) {
+            TreeView->Items->AddObject(NULL, p->key, p);
+         }
+         if (p->right) {
+            TreeView->Items->AddChildObject(TreeView->Items->Item[p->number], p->right->key, p->right);
+            _Show(p->right, TreeView);
+         }
+         if (p->left) {
+            TreeView->Items->AddChildObject(TreeView->Items->Item[p->number], p->left->key, p->left);
+            _Show(p->left, TreeView);
+         }
+    }
+    void _Path1(Node *root, TMemo *Memo) {
+        if(root) {
+            UnicodeString s = root->key;
+            UnicodeString s1 = root->data;
+            UnicodeString s2 = "(";
+            UnicodeString s3 = ")";
+            Memo->Lines->Add(s + s2 + s1 + s3);
+        }
+        if(root->left) {
+            _Path1(root->left, Memo);
+        }
+        if(root->right) {
+            _Path1(root->right, Memo);
+        }
+    }
+    void _Path2(Node *root, TMemo *Memo) {
+        if(root->left) {
+            _Path2(root->left, Memo);
+        }
+        if(root->right) {
+            _Path2(root->right, Memo);
+        }
+        if(root) {
+            UnicodeString s = root->key;
+            UnicodeString s1 = root->data;
+            UnicodeString s2 = "(";
+            UnicodeString s3 = ")";
+            Memo->Lines->Add(s + s2 + s1 + s3);
+        }
+    }
+    void _Path3(Node *root, TMemo *Memo) {
+        if(root->left) {
+            _Path3(root->left, Memo);
+        }
+        if(root) {
+            UnicodeString s = root->key;
+            UnicodeString s1 = root->data;
+            UnicodeString s2 = "(";
+            UnicodeString s3 = ")";
+            Memo->Lines->Add(s + s2 + s1 + s3);
+        }
+        if(root->right) {
+            _Path3(root->right, Memo);
+        }
+    }
+    void _Find(UnicodeString &s, Node *root, int k) {
+        if (!root) {
+            return;
+        }
+        if (k > root->key) {
+            _Find(s, root->right, k);
+        }
+        else if (k < root->key) {
+            _Find(s, root->left, k);
+        }
+        else {
+            s = root->data;
+            return;
+        }
+    }
+    Node* FindMin(Node* root) {
+        if (root->left) {
+            return FindMin(root->left);
+        }
+        else return root;
+    }
+    Node* RemoveMin(Node* root) {
+          if (!root->left) {
+              return root->right;
+          }
+          root->left = RemoveMin(root->left);
+          return root;
+    }
+    Node* _Remove(Node* root, int k) {
+        if (!root) {
+            return root;
+        }
+        else if (k > root->key) {
+            root->right = _Remove(root->right, k);
+        }
+        else if (k < root->key) {
+            root->left = _Remove(root->left, k);
+        }
+        else {
+            Node* l = root->left;
+            Node* r = root->right;
+            delete root;
+            if (!r) {
+                return l;
+            }
+            Node* min = FindMin(r);
+            min->right = RemoveMin(r);
+            min->left = l;
+            return min;
+        }
+        return root;
+    }
+    void f(Node* root, Node* &res, int &minDelta, int k) {
+        if (!root) {
+            return;
+        }
+        else if (root) {
+            if (abs(root->key - k) < minDelta) {
+                minDelta = abs(root->key - k);
+                res = root;
+            }
+        }
+        if (root->right) {
+            f(root->right, res, minDelta, k);
+        }
+        if (root->left) {
+            f(root->left, res, minDelta, k);
+        }
+    }
+    Node* _FindNear(Node* root, int k) {
+        int minDelta = 100000;
+        Node* res;
+        f(root, res, minDelta, k);
+        return res;
+    }
+    void TreeToArr(Node *root, int *a, int &i, UnicodeString* s) {
+        if (!root) return;
+        if (root->left) {
+            TreeToArr(root->left, a, i, s);
+        }
+        if (root) {
+            s[i] = root->data;
+            a[i] = root->key;
+            i++;
+        }
+        if (root->right) {
+            TreeToArr(root->right, a, i, s);
+        }
+    }
+    void _Remake(Node *&root, int *a, int l, int r, UnicodeString* s) {
+        if (l == r) {
+            root = NULL;
+            return;
+        }
+        int m = (l + r) / 2;
+        root = new Node(a[m], s[m]);
+        _Remake(root->left, a, l, m, s);
+        _Remake(root->right, a, m + 1, r, s);
+    }
+public:
+
+    SearchTree() {
+        root = NULL;
+    }
+    Node* GetRoot() {
+        return root;
+    }
+    void Insert(int k, UnicodeString s) {
+        root = _Insert(root, k, s);
+    }
+    void Show(TTreeView *TreeView) {
+         TreeView->Items->Clear();
+         int i = 0;
+        _SetNumbers(root, i);
+        _Show(root, TreeView);
+    }
+    void Path1(TMemo *Memo) {
+        _Path1(root, Memo);
+    }
+    void Path2(TMemo *Memo) {
+        _Path2(root, Memo);
+    }
+    void Path3(TMemo *Memo) {
+        _Path3(root, Memo);
+    }
+    void Find(UnicodeString &s, int k) {
+        _Find(s, root, k);
+    }
+    void Remove(int k) {
+        root = _Remove(root, k);
+    }
+    Node* FindNear(int k) {
+        return _FindNear(root, k);
+    }
+    void Remake() {
+        int a[100];
+        UnicodeString s[100];
+        int n = 0;
+        TreeToArr(root, a, n, s);
+        _Remake(root, a, 0, n, s);
+    }
+};

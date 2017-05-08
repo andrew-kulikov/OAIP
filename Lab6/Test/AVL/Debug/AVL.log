@@ -1,0 +1,7 @@
+﻿  AVL.cpp
+d:\study\оаип\sem2\lab6\test\avl\avl.cpp(127): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\stdio.h(242): note: see declaration of 'freopen'
+d:\study\оаип\sem2\lab6\test\avl\avl.cpp(128): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.14393.0\ucrt\stdio.h(242): note: see declaration of 'freopen'
+  AVL.vcxproj -> D:\study\ОАИП\Sem2\Lab6\Test\Debug\AVL.exe
+  AVL.vcxproj -> D:\study\ОАИП\Sem2\Lab6\Test\Debug\AVL.pdb (Partial PDB)

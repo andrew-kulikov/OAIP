@@ -1,0 +1,145 @@
+#include "AVL.h"
+
+class SearchTree {
+public:
+    Node* root;
+    SearchTree() {
+        root = NULL;
+    }
+    Node* GetRoot() {
+        return root;
+    }
+    Node* Insert(Node* p, int k, UnicodeString s) {
+        if (p == NULL) {
+            return new Node(k, s);
+        }
+        if (k > p->key) {
+            p->right = Insert(p->right, k, s);
+        }
+        else {
+            p->left = Insert(p->left, k, s);
+        }
+        return p;
+    }
+    void SetNumbers(Node* p, int &i) {
+         p->number = i;
+         i++;
+         if (p->right) {
+             SetNumbers(p->right, i);
+         }
+         if (p->left) {
+             SetNumbers(p->left, i);
+         }
+    }
+    void Show(Node* p, TTreeView *TreeView) {
+         if (!p->number) {
+            TreeView->Items->AddObject(NULL, p->key, p);
+         }
+         if (p->right) {
+            TreeView->Items->AddChildObject(TreeView->Items->Item[p->number], p->right->key, p->right);
+            Show(p->right, TreeView);
+         }
+         if (p->left) {
+            TreeView->Items->AddChildObject(TreeView->Items->Item[p->number], p->left->key, p->left);
+            Show(p->left, TreeView);
+         }
+    }
+    void Path1(Node *root, TMemo *Memo) {
+        if(root) {
+
+            UnicodeString s = root->key;
+            UnicodeString s1 = root->data;
+            UnicodeString s2 = "(";
+            UnicodeString s3 = ")";
+            Memo->Lines->Add(s + s2 + s1 + s3);
+        }
+        if(root->left) {
+            Path1(root->left, Memo);
+        }
+        if(root->right) {
+            Path1(root->right, Memo);
+        }
+    }
+    void Path2(Node *root, TMemo *Memo) {
+        if(root->left) {
+            Path2(root->left, Memo);
+        }
+        if(root->right) {
+            Path2(root->right, Memo);
+        }
+        if(root) {
+
+            UnicodeString s = root->key;
+            UnicodeString s1 = root->data;
+            UnicodeString s2 = "(";
+            UnicodeString s3 = ")";
+            Memo->Lines->Add(s + s2 + s1 + s3);
+        }
+    }
+    void Path3(Node *root, TMemo *Memo) {
+        if(root->left) {
+            Path3(root->left, Memo);
+        }
+        if(root) {
+
+            UnicodeString s = root->key;
+            UnicodeString s1 = root->data;
+            UnicodeString s2 = "(";
+            UnicodeString s3 = ")";
+            Memo->Lines->Add(s + s2 + s1 + s3);
+        }
+        if(root->right) {
+            Path3(root->right, Memo);
+        }
+    }
+    void Find(UnicodeString &s, Node *root, int k) {
+        if (k > root->key) {
+            Find(s, root->right, k);
+        }
+        else if (k < root->key) {
+            Find(s, root->left, k);
+        }
+        else {
+            s = root->data;
+            return;
+        }
+    }
+    Node* FindMin(Node* root) {
+        if (root->left) {
+            return FindMin(root->left);
+        }
+        else return root;
+    }
+    Node* RemoveMin(Node* root) {
+          if (!root->left) {
+              return root->right;
+          }
+          root->left = RemoveMin(root->left);
+          return root;
+    }
+    Node* Remove(Node* root, int k) {
+        if (!root) {
+            return root;
+        }
+        else if (k > root->key) {
+            root->right = Remove(root->right, k);
+        }
+        else if (k < root->key) {
+            root->left = Remove(root->left, k);
+        }
+        else {
+            Node* l = root->left;
+            Node* r = root->right;
+            delete root;
+            if (!r) {
+                return l;
+            }
+            Node* min = FindMin(r);
+            min->right = RemoveMin(r);
+            min->left = l;
+            return min;
+        }
+        return root;
+    }
+};
+

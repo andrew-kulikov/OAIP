@@ -1,0 +1,40 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 423
+  ClientWidth = 690
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 120
+  TextHeight = 16
+  object TreeView1: TTreeView
+    Left = 40
+    Top = 48
+    Width = 257
+    Height = 193
+    Indent = 19
+    TabOrder = 0
+  end
+  object InputField: TEdit
+    Left = 496
+    Top = 64
+    Width = 57
+    Height = 41
+    NumbersOnly = True
+    TabOrder = 1
+  end
+  object InsertButton: TButton
+    Left = 496
+    Top = 128
+    Width = 57
+    Height = 25
+    Caption = 'Insert'
+    TabOrder = 2
+  end
+end

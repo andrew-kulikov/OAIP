@@ -1,0 +1,90 @@
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Tree.h"
+
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+BinaryTree *Tree;
+
+__fastcall TForm1::TForm1(TComponent* Owner)
+    : TForm(Owner)
+{
+    Tree = new BinaryTree();
+}
+
+void __fastcall TForm1::InsertButtonClick(TObject *Sender)
+{
+     if (InputField->Text == "" || ValBox->Text == "")
+        ShowMessage("Repeat, please");
+     else {
+        int key = StrToInt(InputField->Text);
+        UnicodeString val = ValBox->Text;
+        Tree->Insert(key, val);
+        Tree->Show(TreeView1);
+    }
+}
+
+void __fastcall TForm1::BalanceButtonClick(TObject *Sender)
+{
+    Tree->Remake();
+    Tree->Show(TreeView1);
+}
+
+void __fastcall TForm1::Path1ButtonClick(TObject *Sender)
+{
+    Tree->Path1(Memo1);
+}
+
+void __fastcall TForm1::Path2ButotnClick(TObject *Sender)
+{
+    Tree->Path2(Memo1);
+}
+
+void __fastcall TForm1::Path3ButtonClick(TObject *Sender)
+{
+    Tree->Path3(Memo1);
+}
+
+void __fastcall TForm1::FindByKeyButtonClick(TObject *Sender)
+{
+    if (FindByKeyBox->Text == "")
+        ShowMessage("Repeat, please");
+    else {
+        int key = StrToInt(FindByKeyBox->Text);
+        UnicodeString s = "";
+        Memo1->Lines->Clear();
+        Tree->Find(s, key);
+        Memo1->Lines->Add(s);
+    }
+}
+
+void __fastcall TForm1::DeleteByKeyButtonClick(TObject *Sender)
+{
+     if (DeleteByKeyBox->Text == "")
+         ShowMessage("Repeat, please");
+     else {
+         int key = StrToInt(DeleteByKeyBox->Text);
+         UnicodeString s;
+         Memo1->Lines->Clear();
+         Tree->Remove(key);
+         Tree->Show(TreeView1);
+     }
+}
+
+void __fastcall TForm1::FindNearButtonClick(TObject *Sender)
+{
+    if (FindNearBox->Text == "")
+        ShowMessage("Repeat, please");
+    else {
+        int key = StrToInt(FindNearBox->Text);
+        Memo1->Lines->Clear();
+        Node* tmp = Tree->FindNear(key);
+        UnicodeString s = tmp->key;
+        UnicodeString s1 = "(";
+        UnicodeString s2 = tmp->data;
+        UnicodeString s3 = ")";
+        Memo1->Lines->Add(s + s1 + s2 + s3);
+    }
+}
