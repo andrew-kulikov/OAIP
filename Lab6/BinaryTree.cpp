@@ -14,7 +14,7 @@ void PrintNode(Node *root, TMemo *Memo)
 //вставка узла
 Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
 {
-    if (root == NULL)
+    if (!root)
         return new Node(k, s);
     if (k > root->key)
         root->right = _Insert(root->right, k, s);
