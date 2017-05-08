@@ -14,7 +14,7 @@ void PrintNode(Node *root, TMemo *Memo)
 //вставка узла
 Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
 {
-    if (!root)
+    if (root == NULL)
         return new Node(k, s);
     if (k > root->key)
         root->right = _Insert(root->right, k, s);
@@ -58,37 +58,31 @@ void BinaryTree::_Show(Node* p, TTreeView *TreeView)
 //прямой обход
 void BinaryTree::_Path1(Node *root, TMemo *Memo)
 {
-    if(root) {
-        PrintNode(root, Memo);
-    }
-    if(root->left)
-        _Path1(root->left, Memo);
-    if(root->right)
-        _Path1(root->right, Memo);
+    if (!root)
+        return;
+    PrintNode(root, Memo);
+    _Path1(root->left, Memo);
+    _Path1(root->right, Memo);
 }
 
 //обратный обход
 void BinaryTree::_Path2(Node *root, TMemo *Memo)
 {
-    if(root->left)
-        _Path2(root->left, Memo);
-    if(root->right)
-        _Path2(root->right, Memo);
-    if(root) {
-        PrintNode(root, Memo);
-    }
+    if (!root)
+        return;
+    _Path2(root->left, Memo);
+    _Path2(root->right, Memo);
+    PrintNode(root, Memo);
 }
 
 //обход в порядке возрастания ключа
 void BinaryTree::_Path3(Node *root, TMemo *Memo)
 {
-    if(root->left)
-        _Path3(root->left, Memo);
-    if(root) {
-        PrintNode(root, Memo);
-    }
-    if(root->right)
-        _Path3(root->right, Memo);
+    if (!root)
+        return;
+    _Path3(root->left, Memo);
+    PrintNode(root, Memo);
+    _Path3(root->right, Memo);
 }
 
 //поиск уззла с ключом k
@@ -152,16 +146,14 @@ void BinaryTree::FindNearestNode(Node* root, Node* &res, int &minDelta, int k)
 {
     if (!root)
         return;
-    else if (root) {
+    else {
         if (abs(root->key - k) < minDelta) {
             minDelta = abs(root->key - k);
             res = root;
         }
     }
-    if (root->right)
-        FindNearestNode(root->right, res, minDelta, k);
-    if (root->left)
-        FindNearestNode(root->left, res, minDelta, k);
+    FindNearestNode(root->right, res, minDelta, k);
+    FindNearestNode(root->left, res, minDelta, k);
 }
 
 //еще один поиск узла с ключом, ближайшим к k (уменьшаем количество параметров)
@@ -178,15 +170,13 @@ void BinaryTree::TreeToArr(Node *root, int *tmpArray, int &i, UnicodeString* All
 {
     if (!root)
         return;
-    if (root->left)
-        TreeToArr(root->left, tmpArray, i, AllData);
+    TreeToArr(root->left, tmpArray, i, AllData);
     if (root) {
         AllData[i] = root->data;
         tmpArray[i] = root->key;
         i++;
     }
-    if (root->right)
-        TreeToArr(root->right, tmpArray, i, AllData);
+    TreeToArr(root->right, tmpArray, i, AllData);
 }
 
 //балансировка дерева
