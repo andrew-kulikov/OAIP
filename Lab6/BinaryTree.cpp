@@ -2,6 +2,15 @@
 
 #include "BinaryTree.h"
 
+void PrintNode(Node *root, TMemo *Memo)
+{
+    UnicodeString s = root->key;
+    UnicodeString s1 = root->data;
+    UnicodeString s2 = "(";
+    UnicodeString s3 = ")";
+    Memo->Lines->Add(s + s2 + s1 + s3);
+}
+
 //вставка узла
 Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
 {
@@ -14,7 +23,7 @@ Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
     return root;
 }
 
-//нумерация узлов дерева (нумеруем узел, потом правого потомка, потом левого)
+//нумерация узлов дерева
 void BinaryTree::_SetNumbers(Node* p, int &i)
 {
     if (!p)
@@ -27,8 +36,7 @@ void BinaryTree::_SetNumbers(Node* p, int &i)
         _SetNumbers(p->left, i);
 }
 
-/* дерева в TreeView (нумеруем узлы дерева, т.к тут по-другому никак), потом начинаем выводить
-узел->правый потомок->левый потомок*/
+//вывод дерева в TreeView
 void BinaryTree::_Show(Node* p, TTreeView *TreeView)
 {
     if(!p)
@@ -47,15 +55,11 @@ void BinaryTree::_Show(Node* p, TTreeView *TreeView)
     }
 }
 
-//прямой обход узел->левый потомок->правый потомок
+//прямой обход
 void BinaryTree::_Path1(Node *root, TMemo *Memo)
 {
     if(root) {
-        UnicodeString s = root->key;
-        UnicodeString s1 = root->data;
-        UnicodeString s2 = "(";
-        UnicodeString s3 = ")";
-        Memo->Lines->Add(s + s2 + s1 + s3);
+        PrintNode(root, Memo);
     }
     if(root->left)
         _Path1(root->left, Memo);
@@ -63,7 +67,7 @@ void BinaryTree::_Path1(Node *root, TMemo *Memo)
         _Path1(root->right, Memo);
 }
 
-//обратный обход левый потомок->правый потомок->узел
+//обратный обход
 void BinaryTree::_Path2(Node *root, TMemo *Memo)
 {
     if(root->left)
@@ -71,25 +75,17 @@ void BinaryTree::_Path2(Node *root, TMemo *Memo)
     if(root->right)
         _Path2(root->right, Memo);
     if(root) {
-        UnicodeString s = root->key;
-        UnicodeString s1 = root->data;
-        UnicodeString s2 = "(";
-        UnicodeString s3 = ")";
-        Memo->Lines->Add(s + s2 + s1 + s3);
+        PrintNode(root, Memo);
     }
 }
 
-//обход в порядке возрастания ключа левый потомок->узел->правый потомок
+//обход в порядке возрастания ключа
 void BinaryTree::_Path3(Node *root, TMemo *Memo)
 {
     if(root->left)
         _Path3(root->left, Memo);
     if(root) {
-        UnicodeString s = root->key;
-        UnicodeString s1 = root->data;
-        UnicodeString s2 = "(";
-        UnicodeString s3 = ")";
-        Memo->Lines->Add(s + s2 + s1 + s3);
+        PrintNode(root, Memo);
     }
     if(root->right)
         _Path3(root->right, Memo);
@@ -128,8 +124,7 @@ Node* BinaryTree::RemoveMin(Node* root)
     return root;
 }
 
-/*удаление узла дерева (если нашли узел с ключом k, то находим у него минимального потомка, меняем их 
-местами и удаляем узел с ключом k)*/
+//удаление узла дерева
 Node* BinaryTree::_Remove(Node* root, int k)
 {
     if (!root)
@@ -179,32 +174,32 @@ Node* BinaryTree::_FindNear(Node* root, int k)
 }
 
 //вынесение дерева в массив(по возрастанию)
-void BinaryTree::TreeToArr(Node *root, int *a, int &i, UnicodeString* s)
+void BinaryTree::TreeToArr(Node *root, int *tmpArray, int &i, UnicodeString* AllData)
 {
     if (!root)
         return;
     if (root->left)
-        TreeToArr(root->left, a, i, s);
+        TreeToArr(root->left, tmpArray, i, AllData);
     if (root) {
-        s[i] = root->data;
-        a[i] = root->key;
+        AllData[i] = root->data;
+        tmpArray[i] = root->key;
         i++;
     }
     if (root->right)
-        TreeToArr(root->right, a, i, s);
+        TreeToArr(root->right, tmpArray, i, AllData);
 }
 
-//балансировка дерева (выгружаем в массив, а потом чем-то вроде бинпоика строим дерево) 
-void BinaryTree::_Balance(Node *&root, int *a, int l, int r, UnicodeString* s)
+//балансировка дерева
+void BinaryTree::_Balance(Node *&root, int *tmpArray, int left, int right, UnicodeString* AllData)
 {
-    if (l == r) {
+    if (left == right) {
         root = NULL;
         return;
     }
-    int m = (l + r) / 2;
-    root = new Node(a[m], s[m]);
-    _Balance(root->left, a, l, m, s);
-    _Balance(root->right, a, m + 1, r, s);
+    int mid = (left + right) / 2;
+    root = new Node(tmpArray[mid], AllData[mid]);
+    _Balance(root->left, tmpArray, left, mid, AllData);
+    _Balance(root->right, tmpArray, mid + 1, right, AllData);
 }
 
 #pragma package(smart_init)

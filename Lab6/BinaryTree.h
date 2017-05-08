@@ -31,8 +31,8 @@ private:
     Node* _Remove(Node* root, int k);
     void FindNearestNode(Node* root, Node* &res, int &minDelta, int k);
     Node* _FindNear(Node* root, int k);
-    void TreeToArr(Node *root, int *a, int &i, UnicodeString* s);
-    void _Balance(Node *&root, int *a, int l, int r, UnicodeString* s);
+    void TreeToArr(Node *root, int *tmpArray, int &i, UnicodeString* AllData);
+    void _Balance(Node *&root, int *tmpArray, int left, int right, UnicodeString* AllData);
 public:
 	//конструктор
     SearchTree() {
@@ -82,10 +82,10 @@ public:
     }
     //балансировка дерева
     void Balance() {
-        int a[100];
-        UnicodeString s[100];
-        int n = 0;
-        TreeToArr(root, a, n, s);
-        _Balance(root, a, 0, n, s);
+        int tmpArray[100];
+        UnicodeString AllData[100];
+        int amountOfNodes = 0;
+        TreeToArr(root, tmpArray, amountOfNodes, AllData);
+        _Balance(root, tmpArray, 0, amountOfNodes, AllData);
     }
 };
