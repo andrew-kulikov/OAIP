@@ -11,7 +11,7 @@ void PrintNode(Node *root, TMemo *Memo)
     Memo->Lines->Add(s + s2 + s1 + s3);
 }
 
-//вставка узла
+//РІСЃС‚Р°РІРєР° СѓР·Р»Р°
 Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
 {
     if (root == NULL)
@@ -23,7 +23,7 @@ Node* BinaryTree::_Insert(Node* root, int k, UnicodeString s)
     return root;
 }
 
-//нумерация узлов дерева
+//РЅСѓРјРµСЂР°С†РёСЏ СѓР·Р»РѕРІ РґРµСЂРµРІР°
 void BinaryTree::_SetNumbers(Node* p, int &i)
 {
     if (!p)
@@ -36,7 +36,7 @@ void BinaryTree::_SetNumbers(Node* p, int &i)
         _SetNumbers(p->left, i);
 }
 
-//вывод дерева в TreeView
+//РІС‹РІРѕРґ РґРµСЂРµРІР° РІ TreeView
 void BinaryTree::_Show(Node* p, TTreeView *TreeView)
 {
     if(!p)
@@ -55,7 +55,7 @@ void BinaryTree::_Show(Node* p, TTreeView *TreeView)
     }
 }
 
-//прямой обход
+//РїСЂСЏРјРѕР№ РѕР±С…РѕРґ
 void BinaryTree::_Path1(Node *root, TMemo *Memo)
 {
     if(root) {
@@ -67,7 +67,7 @@ void BinaryTree::_Path1(Node *root, TMemo *Memo)
         _Path1(root->right, Memo);
 }
 
-//обратный обход
+//РѕР±СЂР°С‚РЅС‹Р№ РѕР±С…РѕРґ
 void BinaryTree::_Path2(Node *root, TMemo *Memo)
 {
     if(root->left)
@@ -79,7 +79,7 @@ void BinaryTree::_Path2(Node *root, TMemo *Memo)
     }
 }
 
-//обход в порядке возрастания ключа
+//РѕР±С…РѕРґ РІ РїРѕСЂСЏРґРєРµ РІРѕР·СЂР°СЃС‚Р°РЅРёСЏ РєР»СЋС‡Р°
 void BinaryTree::_Path3(Node *root, TMemo *Memo)
 {
     if(root->left)
@@ -91,7 +91,7 @@ void BinaryTree::_Path3(Node *root, TMemo *Memo)
         _Path3(root->right, Memo);
 }
 
-//поиск уззла с ключом k
+//РїРѕРёСЃРє СѓР·Р·Р»Р° СЃ РєР»СЋС‡РѕРј k
 void BinaryTree::_Find(UnicodeString &s, Node *root, int k)
 {
     if (!root)
@@ -106,7 +106,7 @@ void BinaryTree::_Find(UnicodeString &s, Node *root, int k)
     }
 }
 
-//поиск узла с минимальным ключом в левой ветке улза root
+//РїРѕРёСЃРє СѓР·Р»Р° СЃ РјРёРЅРёРјР°Р»СЊРЅС‹Рј РєР»СЋС‡РѕРј РІ Р»РµРІРѕР№ РІРµС‚РєРµ СѓР»Р·Р° root
 Node* BinaryTree::FindMin(Node* root)
 {
     if (root->left)
@@ -115,7 +115,7 @@ Node* BinaryTree::FindMin(Node* root)
         return root;
 }
 
-//удаление узла с минимальным ключом из ветки с началом в root
+//СѓРґР°Р»РµРЅРёРµ СѓР·Р»Р° СЃ РјРёРЅРёРјР°Р»СЊРЅС‹Рј РєР»СЋС‡РѕРј РёР· РІРµС‚РєРё СЃ РЅР°С‡Р°Р»РѕРј РІ root
 Node* BinaryTree::RemoveMin(Node* root)
 {
     if (!root->left)
@@ -124,7 +124,7 @@ Node* BinaryTree::RemoveMin(Node* root)
     return root;
 }
 
-//удаление узла дерева
+//СѓРґР°Р»РµРЅРёРµ СѓР·Р»Р° РґРµСЂРµРІР°
 Node* BinaryTree::_Remove(Node* root, int k)
 {
     if (!root)
@@ -147,7 +147,7 @@ Node* BinaryTree::_Remove(Node* root, int k)
     return root;
 }
 
-//поиск узла с ключом, ближайшим к k
+//РїРѕРёСЃРє СѓР·Р»Р° СЃ РєР»СЋС‡РѕРј, Р±Р»РёР¶Р°Р№С€РёРј Рє k
 void BinaryTree::FindNearestNode(Node* root, Node* &res, int &minDelta, int k)
 {
     if (!root)
@@ -164,7 +164,7 @@ void BinaryTree::FindNearestNode(Node* root, Node* &res, int &minDelta, int k)
         FindNearestNode(root->left, res, minDelta, k);
 }
 
-//еще один поиск узла с ключом, ближайшим к k (уменьшаем количество параметров)
+//РµС‰Рµ РѕРґРёРЅ РїРѕРёСЃРє СѓР·Р»Р° СЃ РєР»СЋС‡РѕРј, Р±Р»РёР¶Р°Р№С€РёРј Рє k (СѓРјРµРЅСЊС€Р°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РїР°СЂР°РјРµС‚СЂРѕРІ)
 Node* BinaryTree::_FindNear(Node* root, int k)
 {
     int minDelta = 100000;
@@ -173,7 +173,7 @@ Node* BinaryTree::_FindNear(Node* root, int k)
     return res;
 }
 
-//вынесение дерева в массив(по возрастанию)
+//РІС‹РЅРµСЃРµРЅРёРµ РґРµСЂРµРІР° РІ РјР°СЃСЃРёРІ(РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ)
 void BinaryTree::TreeToArr(Node *root, int *tmpArray, int &i, UnicodeString* AllData)
 {
     if (!root)
@@ -189,7 +189,7 @@ void BinaryTree::TreeToArr(Node *root, int *tmpArray, int &i, UnicodeString* All
         TreeToArr(root->right, tmpArray, i, AllData);
 }
 
-//балансировка дерева
+//Р±Р°Р»Р°РЅСЃРёСЂРѕРІРєР° РґРµСЂРµРІР°
 void BinaryTree::_Balance(Node *&root, int *tmpArray, int left, int right, UnicodeString* AllData)
 {
     if (left == right) {
